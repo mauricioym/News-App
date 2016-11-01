@@ -11,7 +11,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mTerms = new Bundle();
             mTerms.putString("terms", "");
         }
-        Log.i("oie","" + mTerms.containsKey("terms"));
         getSupportLoaderManager().initLoader(0, mTerms, this);
 
     }
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
