@@ -13,7 +13,7 @@ public class Story {
     public Story(String title, String section, String date, String url) {
         this.mTitle = title;
         this.mSection = section;
-        this.mDate = date;
+        this.mDate = date.replace("T",", ").replace("Z","");
         this.mUrl = url;
     }
 

@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +30,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private Bundle mTerms = new Bundle();
 
+    private ProgressBar mProgressBar;
+    private TextView mEmptyView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        mEmptyView = (TextView) findViewById(R.id.empty_view);
+
         ListView listView = (ListView) findViewById(R.id.list);
+
+        listView.setEmptyView(mEmptyView);
 
         mAdapter = new NewsAdapter(this, new ArrayList<Story>());
 
@@ -74,10 +84,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
+                    mProgressBar.setVisibility(View.VISIBLE);
                     mTerms.putString("terms", query);
                     getSupportLoaderManager().restartLoader(0, mTerms, MainActivity.this);
                 } else {
                     mAdapter.clear();
+                    mEmptyView.setText(R.string.no_internet);
                 }
 
                 return true;
@@ -98,6 +110,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<Story>> loader, List<Story> data) {
+        mProgressBar.setVisibility(View.GONE);
+        if (mTerms.getString("terms").isEmpty()){
+            mEmptyView.setText(R.string.type_to_find);
+        } else {
+            mEmptyView.setText(R.string.no_stories);
+        }
         mAdapter.clear();
         if(data != null && !data.isEmpty()){
             mAdapter.addAll(data);

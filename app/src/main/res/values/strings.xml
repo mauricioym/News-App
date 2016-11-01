@@ -2,4 +2,7 @@
     <string name="app_name">News App</string>
     <string name="search_hint">Search Story</string>
     <string name="action_search">Search</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="type_to_find">Type on search bar to find stories</string>
+    <string name="no_stories">No stories found.</string>
 </resources>
