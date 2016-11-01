@@ -10,10 +10,12 @@ import java.util.List;
  */
 public class NewsLoader extends AsyncTaskLoader<List<Story>> {
 
+    private Context mContext;
     private String mTerms;
 
     public NewsLoader(Context context, String terms) {
         super(context);
+        this.mContext = context;
         this.mTerms = terms;
     }
 
@@ -27,6 +29,6 @@ public class NewsLoader extends AsyncTaskLoader<List<Story>> {
         if (mTerms.isEmpty()) {
             return null;
         }
-        return SearchUtils.fetchSearchData(mTerms);
+        return SearchUtils.fetchSearchData(mContext, mTerms);
     }
 }

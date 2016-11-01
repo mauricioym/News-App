@@ -1,6 +1,9 @@
 package com.yuddi.newsapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -23,13 +26,16 @@ import java.util.List;
  */
 public final class SearchUtils {
 
+    private static Context mContext;
+
     private SearchUtils() {
 
     }
 
-    public static List<Story> fetchSearchData(String terms){
+    public static List<Story> fetchSearchData(Context context, String terms){
+        mContext = context;
+
         URL url = createUrl(terms);
-        Log.i("oie","Agulha! " + url.toString());
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
@@ -41,13 +47,21 @@ public final class SearchUtils {
     }
 
     private static URL createUrl(String terms) {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String orderBy = sharedPrefs.getString(
+                mContext.getString(R.string.settings_order_by_key),
+                mContext.getString(R.string.settings_order_by_default));
+
         URL url = null;
         final String GOOGLEAPIS_BASE_URL = "http://content.guardianapis.com/search";
         final String QUERY_PARAM = "q";
+        final String ORDER_BY = "order-by";
         final String API_KEY = "api-key";
         Uri builtUri = Uri.parse(GOOGLEAPIS_BASE_URL)
                 .buildUpon()
                 .appendQueryParameter(QUERY_PARAM, terms)
+                .appendQueryParameter(ORDER_BY, orderBy)
                 .appendQueryParameter(API_KEY, "test")
                 .build();
 

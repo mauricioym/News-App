@@ -11,7 +11,9 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private NewsAdapter mAdapter;
 
-    private Bundle mTerms = new Bundle();
+    private Bundle mTerms;
 
     private ProgressBar mProgressBar;
     private TextView mEmptyView;
@@ -59,7 +61,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        mTerms.putString("terms", "");
+        if (mTerms == null) {
+            mTerms = new Bundle();
+            mTerms.putString("terms", "");
+        }
+        Log.i("oie","" + mTerms.containsKey("terms"));
         getSupportLoaderManager().initLoader(0, mTerms, this);
 
     }
@@ -125,5 +131,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<Story>> loader) {
         mAdapter.clear();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
