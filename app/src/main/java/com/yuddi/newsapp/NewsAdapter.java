@@ -22,19 +22,18 @@ public class NewsAdapter extends ArrayAdapter<Story> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
-
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+        
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.sectionTextView = (TextView) listItemView.findViewById(R.id.section_textview);
-            holder.titleTextView = (TextView) listItemView.findViewById(R.id.title_textview);
-            holder.dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);
+            holder.sectionTextView = (TextView) convertView.findViewById(R.id.section_textview);
+            holder.titleTextView = (TextView) convertView.findViewById(R.id.title_textview);
+            holder.dateTextView = (TextView) convertView.findViewById(R.id.date_textview);
 
-            listItemView.setTag(holder);
+            convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) listItemView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
 
         Story currentStory = getItem(position);
@@ -43,7 +42,7 @@ public class NewsAdapter extends ArrayAdapter<Story> {
         holder.titleTextView.setText(currentStory.getTitle());
         holder.dateTextView.setText(currentStory.getDate());
 
-        return listItemView;
+        return convertView;
     }
 
     static class ViewHolder {

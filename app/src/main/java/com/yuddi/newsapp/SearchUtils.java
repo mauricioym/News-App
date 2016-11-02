@@ -29,7 +29,7 @@ public final class SearchUtils {
     private static Context mContext;
 
     private SearchUtils() {
-
+        throw new AssertionError("No SearchUtils instances for you!");
     }
 
     public static List<Story> fetchSearchData(Context context, String terms){

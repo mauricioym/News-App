@@ -1,7 +1,10 @@
-package com.yuddi.newsapp;
+package com.yuddi.newsapp.loader;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
+
+import com.yuddi.newsapp.SearchUtils;
+import com.yuddi.newsapp.Story;
 
 import java.util.List;
 
